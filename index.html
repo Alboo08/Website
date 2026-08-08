@@ -183,7 +183,7 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 .link-name{font-size:13px;font-weight:800}.link-desc{font-size:10px;color:var(--muted);margin-top:2px}
 .arrow{color:#596274;transition:.3s}.link:hover .arrow{color:#fff;transform:translateX(4px)}
 
-/* Discord Freunde Profil-Karten (Ohne Online-Punkte) */
+/* Discord Freunde Profil-Karten */
 .friends-container {
   margin-top: 18px;
   display: grid;
@@ -449,7 +449,6 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 
 <script>
 const DISCORD_ID = "701464620992299058";
-const API_URL = "https://website.albo08.workers.dev";
 const DEFAULT_ART = "https://cdn.discordapp.com/embed/avatars/0.png";
 
 /* Partikel */
@@ -553,31 +552,37 @@ window.addEventListener('click', () => {
   }
 }, { once: true });
 
-/* Website Aufrufe mit 1-Stunden-Cooldown (localStorage) */
+/* CounterAPI mit API-Key und 1-Stunden-Cooldown */
 async function loadViews(){
   try {
-    const COOLDOWN_KEY = "albo_last_view_time";
+    const COOLDOWN_KEY = "albo_api_cooldown";
     const now = Date.now();
-    const lastViewTime = localStorage.getItem(COOLDOWN_KEY);
-    
-    // Prüfen, ob seit dem letzten Zählen 1 Stunde (3600000 ms) vergangen ist
+    const lastVisit = localStorage.getItem(COOLDOWN_KEY);
     const oneHour = 60 * 60 * 1000;
-    let shouldCount = false;
 
-    if (!lastViewTime || (now - Number(lastViewTime)) > oneHour) {
-      shouldCount = true;
+    const baseEndpoint = "https://api.counterapi.dev/v2/albos-team-4962/first-counter-4962";
+    let endpoint = baseEndpoint;
+
+    // Wenn der letzte Besuch länger als 1 Stunde her ist, erhöhen wir den Zähler online
+    if (!lastVisit || (now - Number(lastVisit)) > oneHour) {
+      endpoint = baseEndpoint + "/up";
       localStorage.setItem(COOLDOWN_KEY, now.toString());
     }
 
-    // Wenn Cooldown abgelaufen ist, POST-Request an den Worker senden (zählt +1)
-    // Ansonsten nur die aktuellen Views abrufen (GET-Request via Worker oder direkt)
-    const method = shouldCount ? "POST" : "GET";
-    
-    const r = await fetch(`${API_URL}/view`, { method: method });
-    const d = await r.json();
-    const n = Number(d.count || 0);
-    document.getElementById("views").textContent = n.toLocaleString("de-DE");
+    const apiKey = "ut_XND3YtwPQ9g8f2hs80UQ0sVHBbqbIS51aI8mNVl5";
+
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`
+      }
+    });
+
+    const data = await response.json();
+    const countValue = data.count !== undefined ? data.count : (data.value !== undefined ? data.value : 0);
+    document.getElementById("views").textContent = Number(countValue).toLocaleString("de-DE");
   } catch(e) {
+    console.error("Counter Fehler:", e);
     document.getElementById("views").textContent = "0";
   }
 }
