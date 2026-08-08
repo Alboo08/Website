@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -267,6 +266,7 @@
             background: var(--spotify);
             border-radius: 50%;
             box-shadow: 0 0 14px var(--spotify);
+            display: none;
         }
 
         /* SPOTIFY */
@@ -506,7 +506,7 @@
 
             <div class="activity-content">
                 <div class="activity-label">
-                    <span id="activityLabel">Discord</span>
+                    <span id="activityLabel">Spotify</span>
                 </div>
 
                 <div id="activityTitle" class="activity-title">
@@ -514,7 +514,7 @@
                 </div>
 
                 <div id="activityArtist" class="activity-artist">
-                    Verbindung zu Discord...
+                    Verbindung zu Spotify...
                 </div>
             </div>
 
@@ -523,12 +523,10 @@
 
     </section>
 
-    <!-- SPOTIFY -->
-
     <section class="section">
 
         <div class="section-title">
-            Spotify
+            Spotify Statistiken
         </div>
 
         <div class="spotify-grid">
@@ -572,8 +570,6 @@
         </div>
 
     </section>
-
-    <!-- SOCIALS -->
 
     <section class="section">
 
@@ -627,8 +623,6 @@
 
     </section>
 
-    <!-- PROJECTS -->
-
     <section class="section">
 
         <div class="section-title">
@@ -677,265 +671,117 @@
      */
 
     const DISCORD_ID = "701464620992299058";
-
-    /*
-     * HIER DEINE CLOUDFLARE-WORKER-URL
-     *
-     * Beispiel:
-     * https://albo-api.deine-domain.workers.dev
-     */
-    const API_URL = "https://DEIN-WORKER.workers.dev";
+    const API_URL = "https://website.albo08.workers.dev";
 
 
     /*
      * ================================
      * PROFILAUFRUFE
      * ================================
-     *
-     * Die Website selbst loggt KEINEN
-     * Besuch in Discord.
-     *
-     * Der Worker zählt nur den View.
      */
 
     async function loadViews() {
-
         const element = document.getElementById("views");
-
         try {
-
-            const response = await fetch(
-                `${API_URL}/view`,
-                {
-                    method: "POST"
-                }
-            );
-
+            const response = await fetch(`${API_URL}/view`, { method: "POST" });
             const data = await response.json();
 
             if (data.count !== undefined) {
-                element.textContent =
-                    `${data.count.toLocaleString("de-DE")} Profilaufrufe`;
+                element.textContent = `${data.count.toLocaleString("de-DE")} Profilaufrufe`;
             } else {
                 element.textContent = "Profilaufrufe";
             }
-
         } catch (error) {
-
             console.error("View Counter:", error);
             element.textContent = "Profilaufrufe";
-
         }
     }
 
 
     /*
      * ================================
-     * SPOTIFY STATS
-     * ================================
-     */
-
-    function updateSpotifyStats(stats) {
-
-        if (!stats) return;
-
-        const songs = stats.songs || {};
-        const artists = stats.artists || {};
-
-        const songEntries = Object.entries(songs)
-            .sort((a, b) => b[1] - a[1]);
-
-        const artistEntries = Object.entries(artists)
-            .sort((a, b) => b[1] - a[1]);
-
-
-        if (songEntries.length > 0) {
-
-            const [song, count] = songEntries[0];
-
-            document.getElementById("favoriteSong")
-                .textContent = song;
-
-            document.getElementById("favoriteSongMeta")
-                .textContent = `${count}x gehört`;
-
-        }
-
-
-        if (artistEntries.length > 0) {
-
-            const [artist, count] = artistEntries[0];
-
-            document.getElementById("favoriteArtist")
-                .textContent = artist;
-
-            document.getElementById("favoriteArtistMeta")
-                .textContent = `${count} Lieder`;
-
-        }
-    }
-
-
-    /*
-     * ================================
-     * DISCORD / LANYARD
+     * SPOTIFY AKTUELLER SONG (DIREKT VOM WORKER)
      * ================================
      */
 
     let lastTrack = "";
 
-    async function loadDiscord() {
-
+    async function loadSpotifyNowPlaying() {
         try {
+            const response = await fetch(`${API_URL}/now-playing`);
+            const data = await response.json();
 
-            const response =
-                await fetch(
-                    `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
-                );
+            if (data.isPlaying) {
+                document.getElementById("activityLabel").textContent = "Spotify";
+                document.getElementById("activityTitle").textContent = data.song;
+                document.getElementById("activityArtist").textContent = data.artist;
+                document.getElementById("activityCover").src = data.albumArt || "https://cdn.discordapp.com/embed/avatars/0.png";
+                document.getElementById("spotifyDot").style.display = "block";
 
+                // Song-Statistik an Worker senden
+                const trackKey = `${data.song}|||${data.artist}`;
+                if (trackKey !== lastTrack) {
+                    lastTrack = trackKey;
+                    await fetch(`${API_URL}/spotify`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+                }
+            } else {
+                // Wenn Spotify aus oder pausiert ist
+                document.getElementById("activityLabel").textContent = "Spotify";
+                document.getElementById("activityTitle").textContent = "Keine Musik aktiv";
+                document.getElementById("activityArtist").textContent = "Pausiert oder Offline";
+                document.getElementById("spotifyDot").style.display = "none";
+                document.getElementById("activityCover").src = "https://cdn.discordapp.com/embed/avatars/0.png";
+            }
+
+        } catch (error) {
+            console.error("Spotify Fehler:", error);
+            document.getElementById("activityTitle").textContent = "Spotify nicht erreichbar";
+        }
+    }
+
+
+    /*
+     * ================================
+     * DISCORD PROFIL & STATUS (OHNE SPOTIFY)
+     * ================================
+     */
+
+    async function loadDiscordProfile() {
+        try {
+            const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
             const json = await response.json();
-
             const data = json.data;
 
             if (!data) return;
 
-
-            /*
-             * PROFIL
-             */
-
+            // Avatar laden
             if (data.discord_user.avatar) {
-
-                const extension =
-                    data.discord_user.avatar.startsWith("a_")
-                        ? "gif"
-                        : "png";
-
-                document.getElementById("avatar").src =
-                    `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.${extension}?size=256`;
+                const extension = data.discord_user.avatar.startsWith("a_") ? "gif" : "png";
+                document.getElementById("avatar").src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.${extension}?size=256`;
             }
 
+            document.getElementById("username").textContent = `@${data.discord_user.username}`;
 
-            document.getElementById("username").textContent =
-                `@${data.discord_user.username}`;
-
-
-            /*
-             * STATUS
-             */
-
+            // Discord Status-Punkt setzen (Online, Idle, DND, Offline)
             const statusColors = {
-
                 online: "#23d18b",
                 idle: "#f0b232",
                 dnd: "#f23f42",
                 offline: "#64748b"
-
             };
 
-            const currentStatus =
-                data.discord_status || "offline";
+            const currentStatus = data.discord_status || "offline";
+            const status = document.getElementById("status");
 
-            const status =
-                document.getElementById("status");
-
-            status.style.background =
-                statusColors[currentStatus];
-
-            status.style.color =
-                statusColors[currentStatus];
-
-
-            /*
-             * SPOTIFY
-             */
-
-            if (data.listening_to_spotify && data.spotify) {
-
-                const spotify = data.spotify;
-
-                document.getElementById("activityLabel")
-                    .textContent = "Spotify";
-
-                document.getElementById("activityTitle")
-                    .textContent = spotify.song;
-
-                document.getElementById("activityArtist")
-                    .textContent = spotify.artist;
-
-                document.getElementById("activityCover")
-                    .src = spotify.album_art_url;
-
-                document.getElementById("spotifyDot")
-                    .style.display = "block";
-
-
-                /*
-                 * NEUER SONG
-                 *
-                 * Wichtig:
-                 * Hier wird NICHT direkt Discord
-                 * aus dem Browser angesprochen.
-                 *
-                 * Der Worker übernimmt das Logging.
-                 */
-
-                const trackKey =
-                    `${spotify.song}|||${spotify.artist}`;
-
-                if (trackKey !== lastTrack) {
-
-                    lastTrack = trackKey;
-
-                    await fetch(
-                        `${API_URL}/spotify`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-
-                            body: JSON.stringify({
-
-                                song: spotify.song,
-                                artist: spotify.artist,
-                                album: spotify.album,
-                                albumArt: spotify.album_art_url
-
-                            })
-                        }
-                    );
-                }
-
-            } else {
-
-                document.getElementById("activityLabel")
-                    .textContent = "Discord";
-
-                document.getElementById("activityTitle")
-                    .textContent = "Keine Spotify-Aktivität";
-
-                document.getElementById("activityArtist")
-                    .textContent =
-                        currentStatus === "offline"
-                            ? "Offline"
-                            : "Aktuell wird nichts abgespielt";
-
-                document.getElementById("spotifyDot")
-                    .style.display = "none";
-
-                document.getElementById("activityCover").src =
-                    "https://cdn.discordapp.com/embed/avatars/0.png";
-            }
+            status.style.background = statusColors[currentStatus];
+            status.style.color = statusColors[currentStatus];
 
         } catch (error) {
-
-            console.error(
-                "Discord connection error:",
-                error
-            );
-
+            console.error("Discord Fehler:", error);
         }
     }
 
@@ -947,50 +793,59 @@
      */
 
     async function loadStats() {
-
         try {
-
-            const response =
-                await fetch(`${API_URL}/stats`);
-
-            const stats =
-                await response.json();
-
+            const response = await fetch(`${API_URL}/stats`);
+            const stats = await response.json();
             updateSpotifyStats(stats);
-
         } catch (error) {
+            console.error("Spotify Stats Fehler:", error);
+        }
+    }
 
-            console.error(
-                "Spotify stats:",
-                error
-            );
+    function updateSpotifyStats(stats) {
+        if (!stats) return;
 
+        const songs = stats.songs || {};
+        const artists = stats.artists || {};
+
+        const songEntries = Object.entries(songs).sort((a, b) => b[1] - a[1]);
+        const artistEntries = Object.entries(artists).sort((a, b) => b[1] - a[1]);
+
+        if (songEntries.length > 0) {
+            const [song, count] = songEntries[0];
+            document.getElementById("favoriteSong").textContent = song;
+            document.getElementById("favoriteSongMeta").textContent = `${count}x gehört`;
+        }
+
+        if (artistEntries.length > 0) {
+            const [artist, count] = artistEntries[0];
+            document.getElementById("favoriteArtist").textContent = artist;
+            document.getElementById("favoriteArtistMeta").textContent = `${count} Lieder`;
         }
     }
 
 
     /*
-     * START
+     * ================================
+     * START & INTERVALLE
+     * ================================
      */
 
     loadViews();
-    loadDiscord();
+    loadDiscordProfile();
+    loadSpotifyNowPlaying();
     loadStats();
 
-    /*
-     * Discord Status alle 6 Sekunden aktualisieren.
-     */
+    // Spotify-Status alle 5 Sekunden vom eigenen Worker abfragen
+    setInterval(loadSpotifyNowPlaying, 5000);
 
-    setInterval(loadDiscord, 6000);
+    // Discord Profile/Status alle 30 Sekunden abfragen
+    setInterval(loadDiscordProfile, 30000);
 
-    /*
-     * Spotify-Statistik alle 30 Sekunden aktualisieren.
-     */
-
+    // Statistiken alle 30 Sekunden aktualisieren
     setInterval(loadStats, 30000);
 
 </script>
 
 </body>
 </html>
-```
