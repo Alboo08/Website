@@ -1,656 +1,996 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Albo — Official Profile</title>
-<meta name="description" content="Albo's Personal Bio & Projects">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-:root {
-    --bg-color: #030509;
-    --card-bg: rgba(12, 17, 29, 0.65);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --accent: #0088ff;
-    --accent-glow: rgba(0, 136, 255, 0.25);
-    --spotify-green: #1ed760;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-}
+    <title>Albo — Profile</title>
+    <meta name="description" content="Albo's official profile">
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    min-height: 100vh;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 0;
-}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-/* BACKGROUND ANIMATION */
-.bg-container {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-    overflow: hidden;
-    pointer-events: none;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.bg-glow {
-    position: absolute;
-    width: 650px;
-    height: 650px;
-    border-radius: 50%;
-    filter: blur(150px);
-    opacity: 0.25;
-    animation: float 18s infinite alternate ease-in-out;
-}
+        :root {
+            --bg: #05070d;
+            --card: rgba(14, 18, 30, .68);
+            --border: rgba(255,255,255,.08);
+            --text: #f8fafc;
+            --muted: #8b95a7;
+            --blue: #5865f2;
+            --spotify: #1ed760;
+        }
 
-.glow-1 { top: -200px; left: -100px; background: #0066ff; }
-.glow-2 { bottom: -200px; right: -100px; background: #7928ca; animation-delay: -5s; }
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 15% 10%, rgba(88,101,242,.20), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(30,215,96,.10), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: Inter, sans-serif;
+            overflow-x: hidden;
+        }
 
-@keyframes float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(80px, 50px) scale(1.15); }
-}
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
 
-.grid-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: -9;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
-}
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(130px);
+            pointer-events: none;
+            z-index: -1;
+        }
 
-/* MAIN CONTAINER */
-main {
-    width: min(480px, 92%);
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
+        .glow.one {
+            background: rgba(88,101,242,.20);
+            top: -250px;
+            left: -200px;
+        }
 
-/* PROFILE COUNTER BADGE */
-.views-badge {
-    align-self: center;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--card-border);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
-    backdrop-filter: blur(10px);
-}
+        .glow.two {
+            background: rgba(30,215,96,.10);
+            bottom: -300px;
+            right: -200px;
+        }
 
-.views-badge i {
-    color: var(--accent);
-}
+        .container {
+            width: min(620px, calc(100% - 30px));
+            margin: 0 auto;
+            padding: 35px 0 50px;
+        }
 
-/* DISCORD PROFILE CARD */
-.discord-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
+        /* VIEWS */
 
-.discord-card:hover {
-    border-color: rgba(0, 136, 255, 0.4);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px var(--accent-glow);
-}
+        .views {
+            width: fit-content;
+            margin: 0 auto 18px;
+            padding: 9px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255,255,255,.035);
+            backdrop-filter: blur(20px);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
 
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
+        .views i {
+            color: #aeb8ff;
+        }
 
-.avatar-wrapper {
-    position: relative;
-    width: 76px;
-    height: 76px;
-    flex-shrink: 0;
-}
+        /* HERO */
 
-.avatar-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.12);
-}
+        .hero {
+            position: relative;
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: var(--card);
+            backdrop-filter: blur(30px);
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.45),
+                inset 0 1px rgba(255,255,255,.06);
+            overflow: hidden;
+        }
 
-.status-badge {
-    position: absolute;
-    bottom: 3px;
-    right: 3px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #64748b;
-    border: 3px solid #080d1a;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-}
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: rgba(88,101,242,.14);
+            filter: blur(90px);
+            top: -150px;
+            right: -100px;
+        }
 
-.profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
+        .profile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
 
-.display-name {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text-main);
-    letter-spacing: -0.5px;
-}
+        .avatar-wrap {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            flex-shrink: 0;
+        }
 
-.username {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-muted);
-}
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,.1);
+        }
 
-.divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    margin: 20px 0;
-}
+        .status {
+            position: absolute;
+            right: 1px;
+            bottom: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #64748b;
+            border: 4px solid #111622;
+            box-shadow: 0 0 15px currentColor;
+        }
 
-/* LIVE ACTIVITY BOX */
-.activity-box {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 14px 16px;
-    border-radius: 16px;
-}
+        .name {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
 
-.activity-media {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    display: grid;
-    place-items: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    overflow: hidden;
-}
+        .username {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 14px;
+        }
 
-.activity-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        .verified {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 19px;
+            height: 19px;
+            margin-left: 4px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: white;
+            font-size: 10px;
+        }
 
-.activity-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    overflow: hidden;
-}
+        .bio {
+            position: relative;
+            margin-top: 22px;
+            color: #aeb6c6;
+            font-size: 14px;
+            line-height: 1.7;
+        }
 
-.activity-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .divider {
+            height: 1px;
+            margin: 23px 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,.1),
+                transparent
+            );
+        }
 
-.activity-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        /* CURRENT ACTIVITY */
 
-/* SPOTIFY FAVORITES CARDS */
-.spotify-favorites-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 16px;
-}
+        .activity {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,.06);
+            background: rgba(255,255,255,.025);
+            border-radius: 20px;
+        }
 
-.fav-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: rgba(30, 215, 96, 0.04);
-    border: 1px solid rgba(30, 215, 96, 0.12);
-    padding: 14px 16px;
-    border-radius: 16px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-}
+        .activity-cover {
+            width: 58px;
+            height: 58px;
+            border-radius: 14px;
+            object-fit: cover;
+            background: rgba(255,255,255,.04);
+            flex-shrink: 0;
+        }
 
-.fav-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(30, 215, 96, 0.3);
-    background: rgba(30, 215, 96, 0.07);
-}
+        .activity-content {
+            min-width: 0;
+            flex: 1;
+        }
 
-.fav-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: rgba(30, 215, 96, 0.12);
-    color: var(--spotify-green);
-    display: grid;
-    place-items: center;
-    font-size: 18px;
-    flex-shrink: 0;
-}
+        .activity-label {
+            color: var(--spotify);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
 
-.fav-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    overflow: hidden;
-}
+        .activity-title {
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-.fav-label {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--spotify-green);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-}
+        .activity-artist {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-.fav-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .spotify-dot {
+            width: 9px;
+            height: 9px;
+            background: var(--spotify);
+            border-radius: 50%;
+            box-shadow: 0 0 14px var(--spotify);
+        }
 
-.fav-count {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-}
+        /* SPOTIFY */
 
-/* SECTION TITLES & LINKS */
-.section-title {
-    font-size: 12px;
-    font-weight: 800;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-left: 6px;
-    margin-bottom: 10px;
-}
+        .section {
+            margin-top: 20px;
+        }
 
-.link-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .section-title {
+            margin: 0 0 10px 5px;
+            color: #6f7b90;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
 
-.link-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 18px;
-    color: var(--text-main);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
+        .spotify-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
 
-.link-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-}
+        .spotify-card {
+            position: relative;
+            min-height: 150px;
+            padding: 19px;
+            border: 1px solid rgba(30,215,96,.12);
+            border-radius: 22px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(30,215,96,.07),
+                    rgba(255,255,255,.025)
+                );
+            overflow: hidden;
+            transition: .25s ease;
+        }
 
-.link-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
+        .spotify-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(30,215,96,.3);
+        }
 
-.link-icon {
-    font-size: 20px;
-    width: 28px;
-    height: 28px;
-    display: grid;
-    place-items: center;
-    color: var(--text-main);
-}
+        .spotify-card::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            right: -40px;
+            bottom: -50px;
+            background: rgba(30,215,96,.12);
+            filter: blur(40px);
+        }
 
-.link-arrow {
-    color: var(--text-muted);
-    font-size: 15px;
-    transition: transform 0.25s ease, color 0.25s ease;
-}
+        .spotify-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: rgba(30,215,96,.1);
+            color: var(--spotify);
+            margin-bottom: 20px;
+        }
 
-.link-card:hover .link-arrow {
-    transform: translateX(4px);
-    color: #fff;
-}
+        .spotify-label {
+            color: var(--spotify);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-footer {
-    text-align: center;
-    font-size: 12px;
-    color: #475569;
-    margin-top: 10px;
-    font-weight: 500;
-}
-</style>
+        .spotify-value {
+            margin-top: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .spotify-meta {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* LINKS */
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 17px 19px;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: rgba(255,255,255,.025);
+            color: white;
+            text-decoration: none;
+            transition: .25s ease;
+        }
+
+        .link:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255,255,255,.18);
+            background: rgba(255,255,255,.055);
+            box-shadow: 0 15px 35px rgba(0,0,0,.25);
+        }
+
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .link-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,.05);
+            font-size: 17px;
+        }
+
+        .link-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .link-desc {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .arrow {
+            color: #697386;
+            transition: .2s;
+        }
+
+        .link:hover .arrow {
+            color: white;
+            transform: translateX(4px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #4f596b;
+            font-size: 11px;
+        }
+
+        @media (max-width: 520px) {
+            .container {
+                width: min(100% - 20px, 620px);
+                padding-top: 20px;
+            }
+
+            .hero {
+                padding: 21px;
+                border-radius: 25px;
+            }
+
+            .spotify-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .name {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="bg-container">
-    <div class="bg-glow glow-1"></div>
-    <div class="bg-glow glow-2"></div>
-</div>
-<div class="grid-overlay"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
 
-<main>
-    <div class="views-badge">
+<main class="container">
+
+    <div class="views">
         <i class="fa-solid fa-eye"></i>
-        <span id="views-count">Views: Lädt...</span>
+        <span id="views">Wird geladen...</span>
     </div>
 
-    <div class="discord-card">
-        <div class="profile-header">
-            <div class="avatar-wrapper">
-                <img id="avatar" src="https://i.imgur.com/placeholder.png" alt="Avatar" class="avatar-img">
-                <div id="status-dot" class="status-badge"></div>
+    <section class="hero">
+
+        <div class="profile">
+            <div class="avatar-wrap">
+                <img
+                    id="avatar"
+                    class="avatar"
+                    src="https://cdn.discordapp.com/embed/avatars/0.png"
+                    alt="Albo"
+                >
+                <div id="status" class="status"></div>
             </div>
-            <div class="profile-info">
-                <div id="display-name" class="display-name">Albo</div>
-                <div id="username" class="username">@albo</div>
+
+            <div>
+                <div class="name">
+                    Albo
+                    <span class="verified">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                </div>
+
+                <div id="username" class="username">
+                    @albo
+                </div>
             </div>
+        </div>
+
+        <div class="bio">
+            Digital creator • Developer • RP Projects
+            <br>
+            Willkommen auf meinem persönlichen Profil.
         </div>
 
         <div class="divider"></div>
 
-        <div class="activity-box">
-            <div id="activity-media" class="activity-media"><i class="fa-solid fa-moon"></i></div>
-            <div class="activity-details">
-                <div id="activity-title" class="activity-title">Status lädt...</div>
-                <div id="activity-sub" class="activity-sub">Verbindung zu Discord...</div>
+        <div class="activity">
+            <img
+                id="activityCover"
+                class="activity-cover"
+                src="https://cdn.discordapp.com/embed/avatars/0.png"
+                alt=""
+            >
+
+            <div class="activity-content">
+                <div class="activity-label">
+                    <span id="activityLabel">Discord</span>
+                </div>
+
+                <div id="activityTitle" class="activity-title">
+                    Wird geladen...
+                </div>
+
+                <div id="activityArtist" class="activity-artist">
+                    Verbindung zu Discord...
+                </div>
             </div>
+
+            <div id="spotifyDot" class="spotify-dot"></div>
         </div>
 
-        <div class="spotify-favorites-grid">
-            <div class="fav-card">
-                <div class="fav-icon">
-                    <i class="fa-solid fa-compact-disc"></i>
+    </section>
+
+    <!-- SPOTIFY -->
+
+    <section class="section">
+
+        <div class="section-title">
+            Spotify
+        </div>
+
+        <div class="spotify-grid">
+
+            <div class="spotify-card">
+                <div class="spotify-icon">
+                    <i class="fa-solid fa-music"></i>
                 </div>
-                <div class="fav-info">
-                    <span class="fav-label">Lieblingssong</span>
-                    <span id="fav-song-title" class="fav-title">Noch kein Song geloggt</span>
-                    <span id="fav-song-count" class="fav-count">0x abgespielt</span>
+
+                <div class="spotify-label">
+                    Lieblingssong
+                </div>
+
+                <div id="favoriteSong" class="spotify-value">
+                    Noch kein Song
+                </div>
+
+                <div id="favoriteSongMeta" class="spotify-meta">
+                    0x gehört
                 </div>
             </div>
 
-            <div class="fav-card">
-                <div class="fav-icon">
+            <div class="spotify-card">
+                <div class="spotify-icon">
                     <i class="fa-solid fa-microphone-lines"></i>
                 </div>
-                <div class="fav-info">
-                    <span class="fav-label">Lieblingskünstler</span>
-                    <span id="fav-artist-name" class="fav-title">Noch kein Künstler geloggt</span>
-                    <span id="fav-artist-count" class="fav-count">0 Lieder angehört</span>
+
+                <div class="spotify-label">
+                    Lieblingskünstler
+                </div>
+
+                <div id="favoriteArtist" class="spotify-value">
+                    Noch kein Künstler
+                </div>
+
+                <div id="favoriteArtistMeta" class="spotify-meta">
+                    0 Lieder
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div>
-        <div class="section-title">Social Media</div>
-        <div class="link-group">
-            <a href="https://www.tiktok.com/@boyerik08" target="_blank" class="link-card">
+        </div>
+
+    </section>
+
+    <!-- SOCIALS -->
+
+    <section class="section">
+
+        <div class="section-title">
+            Social Media
+        </div>
+
+        <div class="links">
+
+            <a
+                class="link"
+                href="https://www.tiktok.com/@boyerik08"
+                target="_blank"
+                rel="noopener"
+            >
                 <div class="link-left">
-                    <span class="link-icon"><i class="fa-brands fa-tiktok"></i></span>
-                    <span>TikTok</span>
+                    <div class="link-icon">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+
+                    <div>
+                        <div class="link-name">TikTok</div>
+                        <div class="link-desc">@boyerik08</div>
+                    </div>
                 </div>
-                <span class="link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+
+                <i class="fa-solid fa-arrow-right arrow"></i>
             </a>
 
-            <a href="https://steamcommunity.com/profiles/76561199436104688/" target="_blank" class="link-card">
+            <a
+                class="link"
+                href="https://steamcommunity.com/profiles/76561199436104688/"
+                target="_blank"
+                rel="noopener"
+            >
                 <div class="link-left">
-                    <span class="link-icon"><i class="fa-brands fa-steam"></i></span>
-                    <span>Steam Profile</span>
-                </div>
-                <span class="link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-        </div>
-    </div>
+                    <div class="link-icon">
+                        <i class="fa-brands fa-steam"></i>
+                    </div>
 
-    <div>
-        <div class="section-title">Projekte</div>
-        <div class="link-group">
-            <a href="https://discord.gg/dj5Kzb6wpg" target="_blank" class="link-card">
-                <div class="link-left">
-                    <span class="link-icon"><i class="fa-solid fa-city"></i></span>
-                    <span>Hansestadt Hamburg</span>
+                    <div>
+                        <div class="link-name">Steam</div>
+                        <div class="link-desc">Mein Steam-Profil</div>
+                    </div>
                 </div>
-                <span class="link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+
+                <i class="fa-solid fa-arrow-right arrow"></i>
             </a>
+
         </div>
-    </div>
+
+    </section>
+
+    <!-- PROJECTS -->
+
+    <section class="section">
+
+        <div class="section-title">
+            Projekte
+        </div>
+
+        <div class="links">
+
+            <a
+                class="link"
+                href="https://discord.gg/dj5Kzb6wpg"
+                target="_blank"
+                rel="noopener"
+            >
+                <div class="link-left">
+                    <div class="link-icon">
+                        <i class="fa-solid fa-city"></i>
+                    </div>
+
+                    <div>
+                        <div class="link-name">Hansestadt Hamburg</div>
+                        <div class="link-desc">Roleplay Community</div>
+                    </div>
+                </div>
+
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+
+        </div>
+
+    </section>
 
     <footer>
-        © 2026 Albo • Built with Cloudflare Pages
+        © 2026 Albo • Built with Cloudflare
     </footer>
+
 </main>
 
+
 <script>
-const DISCORD_ID = "701464620992299058";
 
-// --- 1. PROFILE VIEWS ZÄHLER (MIT 1-STUNDE COOLDOWN) ---
-async function handleProfileViews() {
-    const viewsEl = document.getElementById("views-count");
-    const lastVisitKey = "albo_last_visit_time";
-    const now = Date.now();
-    const oneHourInMs = 3600000; // 60 Minuten * 60 Sek * 1000ms
+    /*
+     * ================================
+     * KONFIGURATION
+     * ================================
+     */
 
-    const lastVisit = localStorage.getItem(lastVisitKey);
-    let shouldIncrement = false;
+    const DISCORD_ID = "701464620992299058";
 
-    if (!lastVisit || (now - parseInt(lastVisit, 10)) > oneHourInMs) {
-        shouldIncrement = true;
-        localStorage.setItem(lastVisitKey, now.toString());
-    }
+    /*
+     * HIER DEINE CLOUDFLARE-WORKER-URL
+     *
+     * Beispiel:
+     * https://albo-api.deine-domain.workers.dev
+     */
+    const API_URL = "https://DEIN-WORKER.workers.dev";
 
-    try {
-        // Kostenloser Counter-API-Endpoint für dein Profil
-        const action = shouldIncrement ? "hit" : "get";
-        const res = await fetch(`https://api.counterapi.dev/v1/albo_profile_page/views/${action}`);
-        const data = await res.json();
-        if (data && data.count !== undefined) {
-            viewsEl.textContent = `${data.count} Aufrufe`;
-        } else {
-            viewsEl.textContent = `Aufrufe aktiv`;
-        }
-    } catch (e) {
-        viewsEl.textContent = `Aufrufe aktiv`;
-    }
-}
-handleProfileViews();
 
-// --- 2. SPOTIFY ANTI-SPAM LOGGER LOGIK ---
-function logSpotifySong(songTitle, artistName) {
-    if (!songTitle || !artistName) return;
+    /*
+     * ================================
+     * PROFILAUFRUFE
+     * ================================
+     *
+     * Die Website selbst loggt KEINEN
+     * Besuch in Discord.
+     *
+     * Der Worker zählt nur den View.
+     */
 
-    let songHistory = JSON.parse(localStorage.getItem("albo_song_history") || "{}");
-    let artistHistory = JSON.parse(localStorage.getItem("albo_artist_history") || "{}");
+    async function loadViews() {
 
-    const songKey = `${songTitle} - ${artistName}`;
+        const element = document.getElementById("views");
 
-    // Playcounts hochzählen
-    songHistory[songKey] = (songHistory[songKey] || 0) + 1;
-    artistHistory[artistName] = (artistHistory[artistName] || 0) + 1;
+        try {
 
-    localStorage.setItem("albo_song_history", JSON.stringify(songHistory));
-    localStorage.setItem("albo_artist_history", JSON.stringify(artistHistory));
-
-    updateSpotifyStatsUI();
-}
-
-function updateSpotifyStatsUI() {
-    let songHistory = JSON.parse(localStorage.getItem("albo_song_history") || "{}");
-    let artistHistory = JSON.parse(localStorage.getItem("albo_artist_history") || "{}");
-
-    // Top Song berechnen
-    let topSong = "";
-    let maxSongPlays = 0;
-    for (const [song, count] of Object.entries(songHistory)) {
-        if (count > maxSongPlays) {
-            maxSongPlays = count;
-            topSong = song;
-        }
-    }
-
-    // Top Artist berechnen
-    let topArtist = "";
-    let maxArtistPlays = 0;
-    for (const [artist, count] of Object.entries(artistHistory)) {
-        if (count > maxArtistPlays) {
-            maxArtistPlays = count;
-            topArtist = artist;
-        }
-    }
-
-    // UI Elemente aktualisieren
-    if (topSong) {
-        document.getElementById("fav-song-title").textContent = topSong;
-        document.getElementById("fav-song-count").textContent = `${maxSongPlays}x abgespielt`;
-    }
-
-    if (topArtist) {
-        document.getElementById("fav-artist-name").textContent = topArtist;
-        document.getElementById("fav-artist-count").textContent = `${maxArtistPlays} Lieder angehört`;
-    }
-}
-
-// Initial UI laden
-updateSpotifyStatsUI();
-
-// Speichert das aktuell laufende Lied, um doppeltes Loggen beim Neuladen zu verhindern
-let activeTrackKey = localStorage.getItem("albo_active_track") || "";
-
-// --- 3. LANYARD DISCORD LIVE STATUS ---
-async function fetchLanyardData() {
-    try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-        const { data } = await res.json();
-        if (!data) return;
-
-        // 1. Avatar Update
-        const avatarImg = document.getElementById("avatar");
-        if (data.discord_user.avatar) {
-            const ext = data.discord_user.avatar.startsWith("a_") ? "gif" : "png";
-            avatarImg.src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.${ext}?size=256`;
-        }
-
-        // 2. Namen Update
-        document.getElementById("display-name").textContent = data.discord_user.global_name || data.discord_user.username;
-        document.getElementById("username").textContent = `@${data.discord_user.username}`;
-
-        // 3. Status Dot Color
-        const statusDot = document.getElementById("status-dot");
-        const statusColors = {
-            online: "#22c55e",
-            idle: "#eab308",
-            dnd: "#ef4444",
-            offline: "#64748b"
-        };
-        const color = statusColors[data.discord_status] || statusColors.offline;
-        statusDot.style.background = color;
-        statusDot.style.boxShadow = `0 0 14px ${color}`;
-
-        // 4. Live Activity & Spotify Handling
-        const mediaBox = document.getElementById("activity-media");
-        const titleEl = document.getElementById("activity-title");
-        const subEl = document.getElementById("activity-sub");
-
-        if (data.listening_to_spotify) {
-            mediaBox.innerHTML = `<img src="${data.spotify.album_art_url}" alt="Album Art">`;
-            titleEl.textContent = data.spotify.song;
-            subEl.textContent = `von ${data.spotify.artist}`;
-
-            // Echter Anti-Spam Check: Nur loggen, wenn ein VÖLLIG NEUES Lied gestartet wurde
-            const currentSongKey = `${data.spotify.song}---${data.spotify.artist}`;
-            if (activeTrackKey !== currentSongKey) {
-                activeTrackKey = currentSongKey;
-                localStorage.setItem("albo_active_track", currentSongKey);
-                logSpotifySong(data.spotify.song, data.spotify.artist);
-            }
-
-        } else if (data.activities && data.activities.length > 0) {
-            const game = data.activities.find(a => a.type === 0);
-            if (game) {
-                if (game.assets && game.assets.large_image) {
-                    const appId = game.application_id;
-                    const imgId = game.assets.large_image;
-                    const imgUrl = imgId.startsWith("mp:external") 
-                        ? imgId.replace(/mp:external\/[^\/]+\/https\//, "https://")
-                        : `https://cdn.discordapp.com/app-assets/${appId}/${imgId}.png`;
-                    mediaBox.innerHTML = `<img src="${imgUrl}" alt="Game Cover">`;
-                } else {
-                    mediaBox.innerHTML = '<i class="fa-solid fa-gamepad"></i>';
+            const response = await fetch(
+                `${API_URL}/view`,
+                {
+                    method: "POST"
                 }
-                titleEl.textContent = game.name;
-                subEl.textContent = game.details || game.state || "Spielt gerade";
-            } else if (data.custom_status) {
-                mediaBox.innerHTML = '<i class="fa-solid fa-comment"></i>';
-                titleEl.textContent = data.custom_status.state || "Custom Status";
-                subEl.textContent = "Discord Status";
+            );
+
+            const data = await response.json();
+
+            if (data.count !== undefined) {
+                element.textContent =
+                    `${data.count.toLocaleString("de-DE")} Profilaufrufe`;
+            } else {
+                element.textContent = "Profilaufrufe";
             }
-        } else {
-            mediaBox.innerHTML = '<i class="fa-solid fa-moon"></i>';
-            titleEl.textContent = "Keine Aktivität";
-            subEl.textContent = "Aktuell offline oder untätig";
+
+        } catch (error) {
+
+            console.error("View Counter:", error);
+            element.textContent = "Profilaufrufe";
+
+        }
+    }
+
+
+    /*
+     * ================================
+     * SPOTIFY STATS
+     * ================================
+     */
+
+    function updateSpotifyStats(stats) {
+
+        if (!stats) return;
+
+        const songs = stats.songs || {};
+        const artists = stats.artists || {};
+
+        const songEntries = Object.entries(songs)
+            .sort((a, b) => b[1] - a[1]);
+
+        const artistEntries = Object.entries(artists)
+            .sort((a, b) => b[1] - a[1]);
+
+
+        if (songEntries.length > 0) {
+
+            const [song, count] = songEntries[0];
+
+            document.getElementById("favoriteSong")
+                .textContent = song;
+
+            document.getElementById("favoriteSongMeta")
+                .textContent = `${count}x gehört`;
+
         }
 
-    } catch (err) {
-        console.error("Lanyard Fetch Error:", err);
-    }
-}
 
-fetchLanyardData();
-setInterval(fetchLanyardData, 6000);
+        if (artistEntries.length > 0) {
+
+            const [artist, count] = artistEntries[0];
+
+            document.getElementById("favoriteArtist")
+                .textContent = artist;
+
+            document.getElementById("favoriteArtistMeta")
+                .textContent = `${count} Lieder`;
+
+        }
+    }
+
+
+    /*
+     * ================================
+     * DISCORD / LANYARD
+     * ================================
+     */
+
+    let lastTrack = "";
+
+    async function loadDiscord() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+                );
+
+            const json = await response.json();
+
+            const data = json.data;
+
+            if (!data) return;
+
+
+            /*
+             * PROFIL
+             */
+
+            if (data.discord_user.avatar) {
+
+                const extension =
+                    data.discord_user.avatar.startsWith("a_")
+                        ? "gif"
+                        : "png";
+
+                document.getElementById("avatar").src =
+                    `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.${extension}?size=256`;
+            }
+
+
+            document.getElementById("username").textContent =
+                `@${data.discord_user.username}`;
+
+
+            /*
+             * STATUS
+             */
+
+            const statusColors = {
+
+                online: "#23d18b",
+                idle: "#f0b232",
+                dnd: "#f23f42",
+                offline: "#64748b"
+
+            };
+
+            const currentStatus =
+                data.discord_status || "offline";
+
+            const status =
+                document.getElementById("status");
+
+            status.style.background =
+                statusColors[currentStatus];
+
+            status.style.color =
+                statusColors[currentStatus];
+
+
+            /*
+             * SPOTIFY
+             */
+
+            if (data.listening_to_spotify && data.spotify) {
+
+                const spotify = data.spotify;
+
+                document.getElementById("activityLabel")
+                    .textContent = "Spotify";
+
+                document.getElementById("activityTitle")
+                    .textContent = spotify.song;
+
+                document.getElementById("activityArtist")
+                    .textContent = spotify.artist;
+
+                document.getElementById("activityCover")
+                    .src = spotify.album_art_url;
+
+                document.getElementById("spotifyDot")
+                    .style.display = "block";
+
+
+                /*
+                 * NEUER SONG
+                 *
+                 * Wichtig:
+                 * Hier wird NICHT direkt Discord
+                 * aus dem Browser angesprochen.
+                 *
+                 * Der Worker übernimmt das Logging.
+                 */
+
+                const trackKey =
+                    `${spotify.song}|||${spotify.artist}`;
+
+                if (trackKey !== lastTrack) {
+
+                    lastTrack = trackKey;
+
+                    await fetch(
+                        `${API_URL}/spotify`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                song: spotify.song,
+                                artist: spotify.artist,
+                                album: spotify.album,
+                                albumArt: spotify.album_art_url
+
+                            })
+                        }
+                    );
+                }
+
+            } else {
+
+                document.getElementById("activityLabel")
+                    .textContent = "Discord";
+
+                document.getElementById("activityTitle")
+                    .textContent = "Keine Spotify-Aktivität";
+
+                document.getElementById("activityArtist")
+                    .textContent =
+                        currentStatus === "offline"
+                            ? "Offline"
+                            : "Aktuell wird nichts abgespielt";
+
+                document.getElementById("spotifyDot")
+                    .style.display = "none";
+
+                document.getElementById("activityCover").src =
+                    "https://cdn.discordapp.com/embed/avatars/0.png";
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Discord connection error:",
+                error
+            );
+
+        }
+    }
+
+
+    /*
+     * ================================
+     * STATS VOM WORKER
+     * ================================
+     */
+
+    async function loadStats() {
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/stats`);
+
+            const stats =
+                await response.json();
+
+            updateSpotifyStats(stats);
+
+        } catch (error) {
+
+            console.error(
+                "Spotify stats:",
+                error
+            );
+
+        }
+    }
+
+
+    /*
+     * START
+     */
+
+    loadViews();
+    loadDiscord();
+    loadStats();
+
+    /*
+     * Discord Status alle 6 Sekunden aktualisieren.
+     */
+
+    setInterval(loadDiscord, 6000);
+
+    /*
+     * Spotify-Statistik alle 30 Sekunden aktualisieren.
+     */
+
+    setInterval(loadStats, 30000);
+
 </script>
+
 </body>
 </html>
+```
