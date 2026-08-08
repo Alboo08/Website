@@ -58,7 +58,7 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 .logo{font-family:"Space Grotesk";font-weight:800;letter-spacing:2px;font-size:15px}
 .logo span{color:var(--violet)}
 .nav-right{display:flex;align-items:center;gap:10px}
-.live-chip,.views{
+.live-chip{
   display:flex;align-items:center;gap:8px;border:1px solid var(--line);
   border-radius:999px;padding:8px 14px;color:#aab2c4;font-size:11px;font-weight:800;
   background:rgba(255,255,255,.03)
@@ -276,7 +276,6 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
   <div class="logo">ALBO<span>.</span></div>
   <div class="nav-right">
     <div class="live-chip"><span class="live-dot"></span><span id="statusText">DISCORD • OFFLINE</span></div>
-    <div class="views"><i class="fa-solid fa-eye"></i><span id="views">0</span></div>
   </div>
 </nav>
 
@@ -552,33 +551,6 @@ window.addEventListener('click', () => {
   }
 }, { once: true });
 
-/* Online CounterAPI (Korrektur ohne CORS-Blockierung) */
-async function loadViews(){
-  try {
-    const COOLDOWN_KEY = "albo_api_cooldown";
-    const now = Date.now();
-    const lastVisit = localStorage.getItem(COOLDOWN_KEY);
-    const oneHour = 60 * 60 * 1000;
-
-    const baseEndpoint = "https://api.counterapi.dev/v2/albos-team-4962/first-counter-4962";
-    let endpoint = baseEndpoint;
-
-    if (!lastVisit || (now - Number(lastVisit)) > oneHour) {
-      endpoint = baseEndpoint + "/up";
-      localStorage.setItem(COOLDOWN_KEY, now.toString());
-    }
-
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    
-    const countValue = data.count !== undefined ? data.count : (data.value !== undefined ? data.value : 0);
-    document.getElementById("views").textContent = Number(countValue).toLocaleString("de-DE");
-  } catch(e) {
-    console.error("Counter Fehler:", e);
-    document.getElementById("views").textContent = "0";
-  }
-}
-
 function setStatus(status){
   const colors={online:"#10b981",idle:"#f59e0b",dnd:"#ef4444",offline:"#6b7280"};
   const c=colors[status]||colors.offline;
@@ -683,7 +655,6 @@ async function loadDiscord(){
   }
 }
 
-loadViews();
 loadDiscord();
 setInterval(loadDiscord,10000);
 </script>
