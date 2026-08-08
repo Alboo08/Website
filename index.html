@@ -14,7 +14,8 @@
     --card-bg: rgba(12, 17, 29, 0.65);
     --card-border: rgba(255, 255, 255, 0.08);
     --accent: #0088ff;
-    --accent-glow: rgba(0, 136, 255, 0.2);
+    --accent-glow: rgba(0, 136, 255, 0.25);
+    --spotify-green: #1ed760;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
 }
@@ -34,7 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0;
+    padding: 50px 0;
 }
 
 /* BACKGROUND ANIMATION */
@@ -48,11 +49,11 @@ body {
 
 .bg-glow {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 650px;
+    height: 650px;
     border-radius: 50%;
-    filter: blur(140px);
-    opacity: 0.22;
+    filter: blur(150px);
+    opacity: 0.25;
     animation: float 18s infinite alternate ease-in-out;
 }
 
@@ -83,7 +84,7 @@ main {
     gap: 24px;
 }
 
-/* GUNS.LOL DISCORD CARD */
+/* DISCORD PROFILE CARD */
 .discord-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -96,7 +97,7 @@ main {
 }
 
 .discord-card:hover {
-    border-color: rgba(0, 136, 255, 0.3);
+    border-color: rgba(0, 136, 255, 0.4);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px var(--accent-glow);
 }
 
@@ -158,7 +159,7 @@ main {
     margin: 20px 0;
 }
 
-/* ACTIVITY / SPOTIFY BOX */
+/* LIVE ACTIVITY / SPOTIFY BOX */
 .activity-box {
     display: flex;
     align-items: center;
@@ -170,8 +171,8 @@ main {
 }
 
 .activity-media {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     display: grid;
@@ -211,41 +212,74 @@ main {
     text-overflow: ellipsis;
 }
 
-/* SPOTIFY LOG STATS */
-.spotify-stats {
-    margin-top: 15px;
-    background: rgba(30, 215, 96, 0.05);
-    border: 1px solid rgba(30, 215, 96, 0.15);
-    border-radius: 16px;
-    padding: 14px 16px;
+/* SPOTIFY FAVORITES CARDS */
+.spotify-favorites-grid {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
+    margin-top: 16px;
 }
 
-.stats-header {
+.fav-card {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #1ed760;
+    gap: 14px;
+    background: rgba(30, 215, 96, 0.04);
+    border: 1px solid rgba(30, 215, 96, 0.12);
+    padding: 14px 16px;
+    border-radius: 16px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.fav-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(30, 215, 96, 0.3);
+    background: rgba(30, 215, 96, 0.07);
+}
+
+.fav-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(30, 215, 96, 0.12);
+    color: var(--spotify-green);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.fav-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.fav-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--spotify-green);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
-.fav-song-info {
-    font-size: 13px;
-    color: #f1f5f9;
-    font-weight: 600;
+.fav-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.artist-info {
+.fav-count {
     font-size: 12px;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
-/* SECTIONS & BUTTONS */
+/* SECTION TITLES & LINKS */
 .section-title {
     font-size: 12px;
     font-weight: 800;
@@ -303,8 +337,8 @@ main {
 
 .link-arrow {
     color: var(--text-muted);
-    font-size: 16px;
-    transition: transform 0.25s ease;
+    font-size: 15px;
+    transition: transform 0.25s ease, color 0.25s ease;
 }
 
 .link-card:hover .link-arrow {
@@ -348,17 +382,32 @@ footer {
             <div id="activity-media" class="activity-media"><i class="fa-solid fa-moon"></i></div>
             <div class="activity-details">
                 <div id="activity-title" class="activity-title">Status lädt...</div>
-                <div id="activity-sub" class="activity-sub">Verbindung mit Discord...</div>
+                <div id="activity-sub" class="activity-sub">Verbindung zu Discord...</div>
             </div>
         </div>
 
-        <div class="spotify-stats">
-            <div class="stats-header">
-                <i class="fa-brands fa-spotify"></i>
-                <span>Lieblingssong (Automatisch Geloggt)</span>
+        <div class="spotify-favorites-grid">
+            <div class="fav-card">
+                <div class="fav-icon">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <div class="fav-info">
+                    <span class="fav-label">Lieblingssong</span>
+                    <span id="fav-song-title" class="fav-title">Noch kein Song geloggt</span>
+                    <span id="fav-song-count" class="fav-count">0x abgespielt</span>
+                </div>
             </div>
-            <div id="fav-song" class="fav-song-info">Noch kein Song geloggt</div>
-            <div id="fav-artist" class="artist-info">Höre Musik über Spotify auf Discord zum Aufzeichnen!</div>
+
+            <div class="fav-card">
+                <div class="fav-icon">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                </div>
+                <div class="fav-info">
+                    <span class="fav-label">Lieblingskünstler</span>
+                    <span id="fav-artist-name" class="fav-title">Noch kein Künstler geloggt</span>
+                    <span id="fav-artist-count" class="fav-count">0 Lieder angehört</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -404,7 +453,7 @@ footer {
 <script>
 const DISCORD_ID = "701464620992299058";
 
-// --- LOCAL STORAGE SPOTIFY LOGGER LOGIK ---
+// --- SPOTIFY LOGGER LOGIK (LOCAL STORAGE) ---
 function logSpotifySong(songTitle, artistName) {
     if (!songTitle || !artistName) return;
 
@@ -413,12 +462,11 @@ function logSpotifySong(songTitle, artistName) {
 
     const songKey = `${songTitle} - ${artistName}`;
 
-    // Song Playcount erhöhen
+    // Playcounts hochzählen
     songHistory[songKey] = (songHistory[songKey] || 0) + 1;
-    localStorage.setItem("albo_song_history", JSON.stringify(songHistory));
-
-    // Artist Playcount erhöhen
     artistHistory[artistName] = (artistHistory[artistName] || 0) + 1;
+
+    localStorage.setItem("albo_song_history", JSON.stringify(songHistory));
     localStorage.setItem("albo_artist_history", JSON.stringify(artistHistory));
 
     updateSpotifyStatsUI();
@@ -428,7 +476,7 @@ function updateSpotifyStatsUI() {
     let songHistory = JSON.parse(localStorage.getItem("albo_song_history") || "{}");
     let artistHistory = JSON.parse(localStorage.getItem("albo_artist_history") || "{}");
 
-    // Meistgehörten Song finden
+    // Top Song berechnen
     let topSong = "";
     let maxSongPlays = 0;
     for (const [song, count] of Object.entries(songHistory)) {
@@ -438,7 +486,7 @@ function updateSpotifyStatsUI() {
         }
     }
 
-    // Meistgehörten Artist finden
+    // Top Artist berechnen
     let topArtist = "";
     let maxArtistPlays = 0;
     for (const [artist, count] of Object.entries(artistHistory)) {
@@ -448,16 +496,19 @@ function updateSpotifyStatsUI() {
         }
     }
 
-    const favSongEl = document.getElementById("fav-song");
-    const favArtistEl = document.getElementById("fav-artist");
-
+    // UI Elemente aktualisieren
     if (topSong) {
-        favSongEl.textContent = `🎵 ${topSong} (${maxSongPlays}x gehört)`;
-        favArtistEl.textContent = `🎤 Meistgehörter Artist: ${topArtist} (${maxArtistPlays} Lieder gehört)`;
+        document.getElementById("fav-song-title").textContent = topSong;
+        document.getElementById("fav-song-count").textContent = `${maxSongPlays}x abgespielt`;
+    }
+
+    if (topArtist) {
+        document.getElementById("fav-artist-name").textContent = topArtist;
+        document.getElementById("fav-artist-count").textContent = `${maxArtistPlays} Lieder angehört`;
     }
 }
 
-// Initial Stats UI laden
+// Initial UI laden
 updateSpotifyStatsUI();
 
 let lastLoggedSong = "";
@@ -480,7 +531,7 @@ async function fetchLanyardData() {
         document.getElementById("display-name").textContent = data.discord_user.global_name || data.discord_user.username;
         document.getElementById("username").textContent = `@${data.discord_user.username}`;
 
-        // 3. Status Punkt
+        // 3. Status Dot Color
         const statusDot = document.getElementById("status-dot");
         const statusColors = {
             online: "#22c55e",
@@ -492,7 +543,7 @@ async function fetchLanyardData() {
         statusDot.style.background = color;
         statusDot.style.boxShadow = `0 0 14px ${color}`;
 
-        // 4. Aktivität / Spotify Logic
+        // 4. Live Activity & Spotify Handling
         const mediaBox = document.getElementById("activity-media");
         const titleEl = document.getElementById("activity-title");
         const subEl = document.getElementById("activity-sub");
@@ -502,7 +553,7 @@ async function fetchLanyardData() {
             titleEl.textContent = data.spotify.song;
             subEl.textContent = `von ${data.spotify.artist}`;
 
-            // Automatic Song Logging Check
+            // Automatic Song Logger Check
             const currentSongKey = `${data.spotify.song}-${data.spotify.artist}`;
             if (lastLoggedSong !== currentSongKey) {
                 lastLoggedSong = currentSongKey;
