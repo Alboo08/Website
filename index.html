@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Albo — Personal Profile</title>
-<meta name="description" content="Personal Bio & Links Page">
+<title>Albo — Official Profile</title>
+<meta name="description" content="Albo's Personal Bio & Projects">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --bg-color: #05070e;
-    --card-bg: rgba(13, 19, 32, 0.55);
+    --bg-color: #030509;
+    --card-bg: rgba(12, 17, 29, 0.65);
     --card-border: rgba(255, 255, 255, 0.08);
     --accent: #0088ff;
-    --accent-glow: rgba(0, 136, 255, 0.25);
+    --accent-glow: rgba(0, 136, 255, 0.2);
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
 }
@@ -22,10 +23,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
 }
 
 body {
@@ -37,11 +34,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 40px 0;
 }
 
-/* =========================
-   BACKGROUND ANIMATION
-========================= */
+/* BACKGROUND ANIMATION */
 .bg-container {
     position: fixed;
     inset: 0;
@@ -56,22 +52,12 @@ body {
     height: 600px;
     border-radius: 50%;
     filter: blur(140px);
-    opacity: 0.25;
+    opacity: 0.22;
     animation: float 18s infinite alternate ease-in-out;
 }
 
-.glow-1 {
-    top: -200px;
-    left: -100px;
-    background: #0066ff;
-}
-
-.glow-2 {
-    bottom: -200px;
-    right: -100px;
-    background: #7928ca;
-    animation-delay: -5s;
-}
+.glow-1 { top: -200px; left: -100px; background: #0066ff; }
+.glow-2 { bottom: -200px; right: -100px; background: #7928ca; animation-delay: -5s; }
 
 @keyframes float {
     0% { transform: translate(0, 0) scale(1); }
@@ -89,41 +75,15 @@ body {
     mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
 }
 
-.stars {
-    position: fixed;
-    inset: 0;
-    z-index: -8;
-}
-
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: #fff;
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: pulse 4s infinite alternate ease-in-out;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.1; transform: scale(0.8); }
-    100% { opacity: 0.8; transform: scale(1.2); }
-}
-
-/* =========================
-   MAIN CONTAINER
-========================= */
+/* MAIN CONTAINER */
 main {
     width: min(480px, 92%);
-    margin: 60px auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
 }
 
-/* =========================
-   GUNS.LOL STYLE DISCORD CARD
-========================= */
+/* GUNS.LOL DISCORD CARD */
 .discord-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -159,7 +119,6 @@ main {
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .status-badge {
@@ -199,7 +158,7 @@ main {
     margin: 20px 0;
 }
 
-/* ACTIVITY SECTION */
+/* ACTIVITY / SPOTIFY BOX */
 .activity-box {
     display: flex;
     align-items: center;
@@ -211,9 +170,9 @@ main {
 }
 
 .activity-media {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     display: grid;
     place-items: center;
@@ -252,16 +211,58 @@ main {
     text-overflow: ellipsis;
 }
 
-/* =========================
-   LINK BUTTONS
-========================= */
-.links-container {
+/* SPOTIFY LOG STATS */
+.spotify-stats {
+    margin-top: 15px;
+    background: rgba(30, 215, 96, 0.05);
+    border: 1px solid rgba(30, 215, 96, 0.15);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stats-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1ed760;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fav-song-info {
+    font-size: 13px;
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+.artist-info {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* SECTIONS & BUTTONS */
+.section-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-left: 6px;
+    margin-bottom: 10px;
+}
+
+.link-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.link-btn {
+.link-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -278,6 +279,13 @@ main {
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.link-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
 .link-left {
     display: flex;
     align-items: center;
@@ -286,38 +294,29 @@ main {
 
 .link-icon {
     font-size: 20px;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     display: grid;
     place-items: center;
-}
-
-.link-btn:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.06);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    color: var(--text-main);
 }
 
 .link-arrow {
     color: var(--text-muted);
-    font-size: 18px;
-    transition: transform 0.25s ease, color 0.25s ease;
+    font-size: 16px;
+    transition: transform 0.25s ease;
 }
 
-.link-btn:hover .link-arrow {
+.link-card:hover .link-arrow {
     transform: translateX(4px);
     color: #fff;
 }
 
-/* =========================
-   FOOTER
-========================= */
 footer {
     text-align: center;
     font-size: 12px;
     color: #475569;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: 500;
 }
 </style>
@@ -329,7 +328,6 @@ footer {
     <div class="bg-glow glow-2"></div>
 </div>
 <div class="grid-overlay"></div>
-<div class="stars" id="stars"></div>
 
 <main>
     <div class="discord-card">
@@ -347,46 +345,55 @@ footer {
         <div class="divider"></div>
 
         <div class="activity-box">
-            <div id="activity-media" class="activity-media">💤</div>
+            <div id="activity-media" class="activity-media"><i class="fa-solid fa-moon"></i></div>
             <div class="activity-details">
                 <div id="activity-title" class="activity-title">Status lädt...</div>
-                <div id="activity-sub" class="activity-sub">Verbindung zu Discord...</div>
+                <div id="activity-sub" class="activity-sub">Verbindung mit Discord...</div>
             </div>
+        </div>
+
+        <div class="spotify-stats">
+            <div class="stats-header">
+                <i class="fa-brands fa-spotify"></i>
+                <span>Lieblingssong (Automatisch Geloggt)</span>
+            </div>
+            <div id="fav-song" class="fav-song-info">Noch kein Song geloggt</div>
+            <div id="fav-artist" class="artist-info">Höre Musik über Spotify auf Discord zum Aufzeichnen!</div>
         </div>
     </div>
 
-    <div class="links-container">
-        <a href="https://discord.com/" target="_blank" class="link-btn">
-            <div class="link-left">
-                <span class="link-icon">💬</span>
-                <span>Discord Server</span>
-            </div>
-            <span class="link-arrow">→</span>
-        </a>
+    <div>
+        <div class="section-title">Social Media</div>
+        <div class="link-group">
+            <a href="https://www.tiktok.com/@boyerik08" target="_blank" class="link-card">
+                <div class="link-left">
+                    <span class="link-icon"><i class="fa-brands fa-tiktok"></i></span>
+                    <span>TikTok</span>
+                </div>
+                <span class="link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
 
-        <a href="https://github.com/" target="_blank" class="link-btn">
-            <div class="link-left">
-                <span class="link-icon">💻</span>
-                <span>GitHub Profile</span>
-            </div>
-            <span class="link-arrow">→</span>
-        </a>
+            <a href="https://steamcommunity.com/profiles/76561199436104688/" target="_blank" class="link-card">
+                <div class="link-left">
+                    <span class="link-icon"><i class="fa-brands fa-steam"></i></span>
+                    <span>Steam Profile</span>
+                </div>
+                <span class="link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </div>
 
-        <a href="https://youtube.com/" target="_blank" class="link-btn">
-            <div class="link-left">
-                <span class="link-icon">▶</span>
-                <span>YouTube Channel</span>
-            </div>
-            <span class="link-arrow">→</span>
-        </a>
-
-        <a href="https://tiktok.com/" target="_blank" class="link-btn">
-            <div class="link-left">
-                <span class="link-icon">♪</span>
-                <span>TikTok</span>
-            </div>
-            <span class="link-arrow">→</span>
-        </a>
+    <div>
+        <div class="section-title">Projekte</div>
+        <div class="link-group">
+            <a href="https://discord.gg/dj5Kzb6wpg" target="_blank" class="link-card">
+                <div class="link-left">
+                    <span class="link-icon"><i class="fa-solid fa-city"></i></span>
+                    <span>Hansestadt Hamburg</span>
+                </div>
+                <span class="link-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
     </div>
 
     <footer>
@@ -395,20 +402,67 @@ footer {
 </main>
 
 <script>
-// BACKGROUND PARTICLES
-const starsContainer = document.getElementById("stars");
-for(let i = 0; i < 60; i++){
-    const star = document.createElement("span");
-    star.className = "star";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
-    star.style.animationDelay = Math.random() * 4 + "s";
-    starsContainer.appendChild(star);
+const DISCORD_ID = "701464620992299058";
+
+// --- LOCAL STORAGE SPOTIFY LOGGER LOGIK ---
+function logSpotifySong(songTitle, artistName) {
+    if (!songTitle || !artistName) return;
+
+    let songHistory = JSON.parse(localStorage.getItem("albo_song_history") || "{}");
+    let artistHistory = JSON.parse(localStorage.getItem("albo_artist_history") || "{}");
+
+    const songKey = `${songTitle} - ${artistName}`;
+
+    // Song Playcount erhöhen
+    songHistory[songKey] = (songHistory[songKey] || 0) + 1;
+    localStorage.setItem("albo_song_history", JSON.stringify(songHistory));
+
+    // Artist Playcount erhöhen
+    artistHistory[artistName] = (artistHistory[artistName] || 0) + 1;
+    localStorage.setItem("albo_artist_history", JSON.stringify(artistHistory));
+
+    updateSpotifyStatsUI();
 }
 
-// LANYARD LIVE DISCORD INTEGRATION
-const DISCORD_ID = "701464620992299058"; // Deine Live Discord User-ID
+function updateSpotifyStatsUI() {
+    let songHistory = JSON.parse(localStorage.getItem("albo_song_history") || "{}");
+    let artistHistory = JSON.parse(localStorage.getItem("albo_artist_history") || "{}");
 
+    // Meistgehörten Song finden
+    let topSong = "";
+    let maxSongPlays = 0;
+    for (const [song, count] of Object.entries(songHistory)) {
+        if (count > maxSongPlays) {
+            maxSongPlays = count;
+            topSong = song;
+        }
+    }
+
+    // Meistgehörten Artist finden
+    let topArtist = "";
+    let maxArtistPlays = 0;
+    for (const [artist, count] of Object.entries(artistHistory)) {
+        if (count > maxArtistPlays) {
+            maxArtistPlays = count;
+            topArtist = artist;
+        }
+    }
+
+    const favSongEl = document.getElementById("fav-song");
+    const favArtistEl = document.getElementById("fav-artist");
+
+    if (topSong) {
+        favSongEl.textContent = `🎵 ${topSong} (${maxSongPlays}x gehört)`;
+        favArtistEl.textContent = `🎤 Meistgehörter Artist: ${topArtist} (${maxArtistPlays} Lieder gehört)`;
+    }
+}
+
+// Initial Stats UI laden
+updateSpotifyStatsUI();
+
+let lastLoggedSong = "";
+
+// --- LANYARD DISCORD LIVE STATUS ---
 async function fetchLanyardData() {
     try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
@@ -422,11 +476,11 @@ async function fetchLanyardData() {
             avatarImg.src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.${ext}?size=256`;
         }
 
-        // 2. Names Update
+        // 2. Namen Update
         document.getElementById("display-name").textContent = data.discord_user.global_name || data.discord_user.username;
         document.getElementById("username").textContent = `@${data.discord_user.username}`;
 
-        // 3. Status Dot Update
+        // 3. Status Punkt
         const statusDot = document.getElementById("status-dot");
         const statusColors = {
             online: "#22c55e",
@@ -438,7 +492,7 @@ async function fetchLanyardData() {
         statusDot.style.background = color;
         statusDot.style.boxShadow = `0 0 14px ${color}`;
 
-        // 4. Activity & Spotify Logic
+        // 4. Aktivität / Spotify Logic
         const mediaBox = document.getElementById("activity-media");
         const titleEl = document.getElementById("activity-title");
         const subEl = document.getElementById("activity-sub");
@@ -447,6 +501,14 @@ async function fetchLanyardData() {
             mediaBox.innerHTML = `<img src="${data.spotify.album_art_url}" alt="Album Art">`;
             titleEl.textContent = data.spotify.song;
             subEl.textContent = `von ${data.spotify.artist}`;
+
+            // Automatic Song Logging Check
+            const currentSongKey = `${data.spotify.song}-${data.spotify.artist}`;
+            if (lastLoggedSong !== currentSongKey) {
+                lastLoggedSong = currentSongKey;
+                logSpotifySong(data.spotify.song, data.spotify.artist);
+            }
+
         } else if (data.activities && data.activities.length > 0) {
             const game = data.activities.find(a => a.type === 0);
             if (game) {
@@ -458,17 +520,17 @@ async function fetchLanyardData() {
                         : `https://cdn.discordapp.com/app-assets/${appId}/${imgId}.png`;
                     mediaBox.innerHTML = `<img src="${imgUrl}" alt="Game Cover">`;
                 } else {
-                    mediaBox.textContent = "🎮";
+                    mediaBox.innerHTML = '<i class="fa-solid fa-gamepad"></i>';
                 }
                 titleEl.textContent = game.name;
                 subEl.textContent = game.details || game.state || "Spielt gerade";
             } else if (data.custom_status) {
-                mediaBox.textContent = "💬";
+                mediaBox.innerHTML = '<i class="fa-solid fa-comment"></i>';
                 titleEl.textContent = data.custom_status.state || "Custom Status";
                 subEl.textContent = "Discord Status";
             }
         } else {
-            mediaBox.textContent = "💤";
+            mediaBox.innerHTML = '<i class="fa-solid fa-moon"></i>';
             titleEl.textContent = "Keine Aktivität";
             subEl.textContent = "Aktuell offline oder untätig";
         }
@@ -478,7 +540,6 @@ async function fetchLanyardData() {
     }
 }
 
-// Initialer Call & Polling alle 6 Sekunden
 fetchLanyardData();
 setInterval(fetchLanyardData, 6000);
 </script>
