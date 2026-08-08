@@ -84,6 +84,26 @@ main {
     gap: 24px;
 }
 
+/* PROFILE COUNTER BADGE */
+.views-badge {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--card-border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    backdrop-filter: blur(10px);
+}
+
+.views-badge i {
+    color: var(--accent);
+}
+
 /* DISCORD PROFILE CARD */
 .discord-card {
     background: var(--card-bg);
@@ -159,7 +179,7 @@ main {
     margin: 20px 0;
 }
 
-/* LIVE ACTIVITY / SPOTIFY BOX */
+/* LIVE ACTIVITY BOX */
 .activity-box {
     display: flex;
     align-items: center;
@@ -238,8 +258,8 @@ main {
 }
 
 .fav-icon {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: 12px;
     background: rgba(30, 215, 96, 0.12);
     color: var(--spotify-green);
@@ -364,6 +384,11 @@ footer {
 <div class="grid-overlay"></div>
 
 <main>
+    <div class="views-badge">
+        <i class="fa-solid fa-eye"></i>
+        <span id="views-count">Views: Lädt...</span>
+    </div>
+
     <div class="discord-card">
         <div class="profile-header">
             <div class="avatar-wrapper">
@@ -389,7 +414,7 @@ footer {
         <div class="spotify-favorites-grid">
             <div class="fav-card">
                 <div class="fav-icon">
-                    <i class="fa-solid fa-music"></i>
+                    <i class="fa-solid fa-compact-disc"></i>
                 </div>
                 <div class="fav-info">
                     <span class="fav-label">Lieblingssong</span>
@@ -453,7 +478,38 @@ footer {
 <script>
 const DISCORD_ID = "701464620992299058";
 
-// --- SPOTIFY LOGGER LOGIK (LOCAL STORAGE) ---
+// --- 1. PROFILE VIEWS ZÄHLER (MIT 1-STUNDE COOLDOWN) ---
+async function handleProfileViews() {
+    const viewsEl = document.getElementById("views-count");
+    const lastVisitKey = "albo_last_visit_time";
+    const now = Date.now();
+    const oneHourInMs = 3600000; // 60 Minuten * 60 Sek * 1000ms
+
+    const lastVisit = localStorage.getItem(lastVisitKey);
+    let shouldIncrement = false;
+
+    if (!lastVisit || (now - parseInt(lastVisit, 10)) > oneHourInMs) {
+        shouldIncrement = true;
+        localStorage.setItem(lastVisitKey, now.toString());
+    }
+
+    try {
+        // Kostenloser Counter-API-Endpoint für dein Profil
+        const action = shouldIncrement ? "hit" : "get";
+        const res = await fetch(`https://api.counterapi.dev/v1/albo_profile_page/views/${action}`);
+        const data = await res.json();
+        if (data && data.count !== undefined) {
+            viewsEl.textContent = `${data.count} Aufrufe`;
+        } else {
+            viewsEl.textContent = `Aufrufe aktiv`;
+        }
+    } catch (e) {
+        viewsEl.textContent = `Aufrufe aktiv`;
+    }
+}
+handleProfileViews();
+
+// --- 2. SPOTIFY ANTI-SPAM LOGGER LOGIK ---
 function logSpotifySong(songTitle, artistName) {
     if (!songTitle || !artistName) return;
 
@@ -511,9 +567,10 @@ function updateSpotifyStatsUI() {
 // Initial UI laden
 updateSpotifyStatsUI();
 
-let lastLoggedSong = "";
+// Speichert das aktuell laufende Lied, um doppeltes Loggen beim Neuladen zu verhindern
+let activeTrackKey = localStorage.getItem("albo_active_track") || "";
 
-// --- LANYARD DISCORD LIVE STATUS ---
+// --- 3. LANYARD DISCORD LIVE STATUS ---
 async function fetchLanyardData() {
     try {
         const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
@@ -553,10 +610,11 @@ async function fetchLanyardData() {
             titleEl.textContent = data.spotify.song;
             subEl.textContent = `von ${data.spotify.artist}`;
 
-            // Automatic Song Logger Check
-            const currentSongKey = `${data.spotify.song}-${data.spotify.artist}`;
-            if (lastLoggedSong !== currentSongKey) {
-                lastLoggedSong = currentSongKey;
+            // Echter Anti-Spam Check: Nur loggen, wenn ein VÖLLIG NEUES Lied gestartet wurde
+            const currentSongKey = `${data.spotify.song}---${data.spotify.artist}`;
+            if (activeTrackKey !== currentSongKey) {
+                activeTrackKey = currentSongKey;
+                localStorage.setItem("albo_active_track", currentSongKey);
                 logSpotifySong(data.spotify.song, data.spotify.artist);
             }
 
