@@ -102,9 +102,7 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
   box-shadow:0 20px 40px rgba(0,0,0,.5);
   transition:border-color .3s;
 }
-.custom-player:hover{
-  border-color:rgba(139,92,246,.4);
-}
+.custom-player:hover{border-color:rgba(139,92,246,.4)}
 
 .sp-track{display:flex;align-items:center;gap:14px;min-width:0}
 .sp-cover{width:58px;height:58px;border-radius:12px;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.1)}
@@ -134,7 +132,6 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 .sp-progress-wrap{display:flex;align-items:center;gap:12px;width:100%}
 .sp-time{font-size:11px;color:#8790a4;font-family:"Space Grotesk",monospace;min-width:32px;text-align:center}
 
-/* Timeline Slider */
 .sp-slider{
   flex:1;-webkit-appearance:none;appearance:none;height:6px;
   background:rgba(255,255,255,.15);border-radius:6px;outline:none;
@@ -146,15 +143,9 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
   border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(6,182,212,.8);
   cursor:pointer;
 }
-.sp-slider::-moz-range-thumb{
-  width:12px;height:12px;border-radius:50%;background:#fff;
-  border:none;box-shadow:0 0 10px rgba(6,182,212,.8);cursor:pointer;
-}
 
 .sp-extra{display:flex;align-items:center;justify-content:flex-end;gap:10px;color:#8790a4}
-.sp-extra input[type=range]{
-  width:85px;accent-color:var(--cyan);cursor:pointer;height:4px
-}
+.sp-extra input[type=range]{width:85px;accent-color:var(--cyan);cursor:pointer;height:4px}
 
 .activities-container{margin-top:20px;display:grid;gap:12px}
 .activity-card{
@@ -192,6 +183,68 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 .link-name{font-size:13px;font-weight:800}.link-desc{font-size:10px;color:var(--muted);margin-top:2px}
 .arrow{color:#596274;transition:.3s}.link:hover .arrow{color:#fff;transform:translateX(4px)}
 
+/* Discord Freunde Profil-Karten (Ohne Online-Punkte) */
+.friends-container {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.friend-profile-card {
+  border: 1px solid var(--line);
+  background: rgba(10, 12, 24, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: .3s;
+}
+.friend-profile-card:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+  background: rgba(139, 92, 246, 0.05);
+}
+.fp-avatar-wrap {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+.fp-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,.1);
+}
+.fp-info {
+  flex: 1;
+  min-width: 0;
+}
+.fp-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fp-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fp-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .footer{text-align:center;color:#515a6c;font-size:10px;margin-top:32px;letter-spacing:1px;font-weight:600}
 
 @keyframes reveal{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
@@ -202,6 +255,7 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 @media(max-width:850px){
   .custom-player{grid-template-columns:1fr;gap:14px}
   .sp-extra{justify-content:center}
+  .friends-container{grid-template-columns:1fr}
 }
 @media(max-width:768px){
   .hero-inner{padding:25px}
@@ -335,6 +389,58 @@ button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 
 </div>
 
+<div class="friends-container">
+  
+  <div class="friend-profile-card">
+    <div class="fp-avatar-wrap">
+      <img class="fp-avatar" src="https://files.catbox.moe/s33hsy.png" alt="Vani">
+    </div>
+    <div class="fp-info">
+      <div class="fp-name-row">
+        <span class="fp-name">Vani</span>
+      </div>
+      <div class="fp-sub">Vani der Esel</div>
+    </div>
+  </div>
+
+  <div class="friend-profile-card">
+    <div class="fp-avatar-wrap">
+      <img class="fp-avatar" src="https://files.catbox.moe/pcch08.png" alt="Anni">
+    </div>
+    <div class="fp-info">
+      <div class="fp-name-row">
+        <span class="fp-name">Anni</span>
+      </div>
+      <div class="fp-sub">Anni das Annanas</div>
+    </div>
+  </div>
+
+  <div class="friend-profile-card">
+    <div class="fp-avatar-wrap">
+      <img class="fp-avatar" src="https://files.catbox.moe/it87xj.png" alt="Zane">
+    </div>
+    <div class="fp-info">
+      <div class="fp-name-row">
+        <span class="fp-name">Zane</span>
+      </div>
+      <div class="fp-sub">Zane der Vogel</div>
+    </div>
+  </div>
+
+  <div class="friend-profile-card">
+    <div class="fp-avatar-wrap">
+      <img class="fp-avatar" src="https://files.catbox.moe/qgmao6.png" alt="Max">
+    </div>
+    <div class="fp-info">
+      <div class="fp-name-row">
+        <span class="fp-name">Max</span>
+      </div>
+      <div class="fp-sub">Max der Eisbärli</div>
+    </div>
+  </div>
+
+</div>
+
 <div class="footer">© 2026 ALBO • DIGITALE IDENTITÄT</div>
 
 </main>
@@ -410,7 +516,6 @@ function changeVolume(val){
   audio.volume = val;
 }
 
-/* Slider Aktualisierung beim Abspielen */
 audio.addEventListener('timeupdate', ()=>{
   if(audio.duration && !isUserSeeking){
     const pct = (audio.currentTime / audio.duration) * 100;
@@ -426,7 +531,6 @@ audio.addEventListener('loadedmetadata', ()=>{
   durationTimeEl.textContent = formatTime(audio.duration);
 });
 
-/* Spul-Funktion */
 progressSlider.addEventListener('mousedown', () => { isUserSeeking = true; });
 progressSlider.addEventListener('touchstart', () => { isUserSeeking = true; });
 
@@ -441,7 +545,6 @@ function seekAudio(val){
 progressSlider.addEventListener('mouseup', () => { isUserSeeking = false; });
 progressSlider.addEventListener('touchend', () => { isUserSeeking = false; });
 
-/* Autoplay beim ersten Klick */
 window.addEventListener('click', () => {
   if (audio.paused && playIcon.className.includes("fa-play")) {
     audio.play().then(() => {
@@ -450,15 +553,32 @@ window.addEventListener('click', () => {
   }
 }, { once: true });
 
-/* Discord & Worker */
+/* Website Aufrufe mit 1-Stunden-Cooldown (localStorage) */
 async function loadViews(){
-  try{
-    const r=await fetch(`${API_URL}/view`,{method:"POST"});
-    const d=await r.json();
-    const n=Number(d.count||0);
-    document.getElementById("views").textContent=n.toLocaleString("de-DE");
-  }catch{
-    document.getElementById("views").textContent="0";
+  try {
+    const COOLDOWN_KEY = "albo_last_view_time";
+    const now = Date.now();
+    const lastViewTime = localStorage.getItem(COOLDOWN_KEY);
+    
+    // Prüfen, ob seit dem letzten Zählen 1 Stunde (3600000 ms) vergangen ist
+    const oneHour = 60 * 60 * 1000;
+    let shouldCount = false;
+
+    if (!lastViewTime || (now - Number(lastViewTime)) > oneHour) {
+      shouldCount = true;
+      localStorage.setItem(COOLDOWN_KEY, now.toString());
+    }
+
+    // Wenn Cooldown abgelaufen ist, POST-Request an den Worker senden (zählt +1)
+    // Ansonsten nur die aktuellen Views abrufen (GET-Request via Worker oder direkt)
+    const method = shouldCount ? "POST" : "GET";
+    
+    const r = await fetch(`${API_URL}/view`, { method: method });
+    const d = await r.json();
+    const n = Number(d.count || 0);
+    document.getElementById("views").textContent = n.toLocaleString("de-DE");
+  } catch(e) {
+    document.getElementById("views").textContent = "0";
   }
 }
 
