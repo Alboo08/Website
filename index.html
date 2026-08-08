@@ -1,114 +1,1173 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Albo | Profile</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Albo — Personal Website</title>
+
+<meta name="description" content="Albo's personal website">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#03050a;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% -10%, #0066ff38, transparent 35%),
+        radial-gradient(circle at 10% 80%, #0077ff18, transparent 30%),
+        radial-gradient(circle at 90% 70%, #6c00ff13, transparent 30%),
+        #03050a;
+}
+
+.blob{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.35;
+    animation:float 15s infinite alternate ease-in-out;
+}
+
+.blob.one{
+    background:#006eff;
+    top:-250px;
+    left:-150px;
+}
+
+.blob.two{
+    background:#6500ff;
+    right:-250px;
+    bottom:-250px;
+    animation-delay:3s;
+}
+
+@keyframes float{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+
+    to{
+        transform:translate(100px,60px) scale(1.25);
+    }
+}
+
+/* grid */
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-8;
+
+    background-image:
+        linear-gradient(#ffffff05 1px,transparent 1px),
+        linear-gradient(90deg,#ffffff05 1px,transparent 1px);
+
+    background-size:70px 70px;
+
+    mask-image:linear-gradient(
+        to bottom,
+        black,
+        transparent 80%
+    );
+}
+
+/* stars */
+
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-7;
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:#fff;
+    border-radius:50%;
+    opacity:.4;
+    animation:twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.1}
+    to{opacity:.8}
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(900px,92%);
+
+    padding:12px 16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    border:1px solid #ffffff10;
+    border-radius:18px;
+
+    background:#070b14bb;
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 20px 60px #00000040;
+
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-weight:800;
+}
+
+.logo-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+
+    background:#00aaff;
+
+    box-shadow:
+        0 0 15px #00aaff,
+        0 0 30px #00aaff;
+}
+
+.top-links{
+    display:flex;
+    gap:8px;
+}
+
+.top-links a{
+    color:#8492a8;
+    text-decoration:none;
+
+    padding:8px 12px;
+    border-radius:10px;
+
+    font-size:13px;
+
+    transition:.2s;
+}
+
+.top-links a:hover{
+    color:white;
+    background:#ffffff08;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    color:#8190a8;
+    font-size:12px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+    background:#22c55e;
+
+    box-shadow:0 0 10px #22c55e;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    width:min(1050px,92%);
+    margin:auto;
+    padding-top:150px;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:60px 0 100px;
+}
+
+.avatar-container{
+    position:relative;
+    width:125px;
+    height:125px;
+    margin:auto;
+}
+
+.avatar-ring{
+    position:absolute;
+    inset:-7px;
+
+    border-radius:50%;
+
+    background:conic-gradient(
+        #00aaff,
+        #006eff,
+        #8000ff,
+        #00aaff
+    );
+
+    animation:spin 6s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.avatar{
+    position:absolute;
+    inset:4px;
+
+    width:117px;
+    height:117px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:5px solid #060912;
+}
+
+.online{
+    position:absolute;
+
+    right:2px;
+    bottom:5px;
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    border:5px solid #060912;
+
+    box-shadow:0 0 20px #22c55e;
+}
+
+.hero h1{
+    margin-top:30px;
+
+    font-size:clamp(45px,8vw,82px);
+
+    letter-spacing:-4px;
+
+    line-height:.95;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #83cfff,
+            #fff
+        );
+
+    background-size:200% auto;
+
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation:textShine 5s linear infinite;
+}
+
+@keyframes textShine{
+    to{
+        background-position:200% center;
+    }
+}
+
+.hero p{
+    margin:22px auto 0;
+
+    max-width:550px;
+
+    color:#8795aa;
+
+    line-height:1.7;
+
+    font-size:16px;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+
+    margin-top:30px;
+}
+
+.button{
+    padding:14px 22px;
+
+    border-radius:13px;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:.25s;
+}
+
+.button.primary{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0077ff,
+            #0051ff
+        );
+
+    box-shadow:
+        0 10px 35px #0066ff35;
+}
+
+.button.secondary{
+    color:#a7b4c8;
+
+    border:1px solid #ffffff12;
+
+    background:#ffffff06;
+}
+
+.button:hover{
+    transform:translateY(-4px);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.section-title{
+    margin-bottom:18px;
+
+    font-size:13px;
+    font-weight:700;
+
+    color:#65738a;
+
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.card-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:14px;
+}
+
+.card{
+    position:relative;
+
+    padding:25px;
+
+    min-height:150px;
+
+    border-radius:20px;
+
+    border:1px solid #ffffff0c;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0c1220dd,
+            #070b13cc
+        );
+
+    backdrop-filter:blur(20px);
+
+    overflow:hidden;
+
+    transition:.3s;
+}
+
+.card::before{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    top:-100px;
+    right:-70px;
+
+    border-radius:50%;
+
+    background:#008cff;
+
+    filter:blur(80px);
+
+    opacity:.15;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+
+    border-color:#008cff30;
+
+    box-shadow:
+        0 20px 60px #00000050;
+}
+
+.card-icon{
+    width:45px;
+    height:45px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:#008cff12;
+
+    font-size:20px;
+
+    margin-bottom:20px;
+}
+
+.card h3{
+    font-size:16px;
+}
+
+.card p{
+    margin-top:8px;
+
+    color:#69778c;
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.links-section{
+    margin-top:80px;
+}
+
+.link-list{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:12px;
+}
+
+.link{
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    padding:17px;
+
+    text-decoration:none;
+    color:white;
+
+    border-radius:17px;
+
+    border:1px solid #ffffff0b;
+
+    background:#080d17c9;
+
+    transition:.25s;
+}
+
+.link:hover{
+    transform:translateX(5px);
+
+    background:#0c1422;
+
+    border-color:#008cff35;
+}
+
+.link-icon{
+    width:46px;
+    height:46px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:#ffffff08;
+
+    font-size:20px;
+}
+
+.link-info{
+    flex:1;
+}
+
+.link-info strong{
+    display:block;
+
+    font-size:14px;
+}
+
+.link-info span{
+    display:block;
+
+    margin-top:3px;
+
+    color:#63728a;
+
+    font-size:12px;
+}
+
+.arrow{
+    color:#52637c;
+    font-size:20px;
+}
+
+/* =========================
+   MUSIC
+========================= */
+
+.music{
+    margin-top:80px;
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+    padding:17px;
+
+    border-radius:20px;
+
+    border:1px solid #ffffff0d;
+
+    background:#080d17d9;
+
+    backdrop-filter:blur(20px);
+}
+
+.music-cover{
+    width:55px;
+    height:55px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0077ff,
+            #6500ff
+        );
+
+    font-size:22px;
+
+    box-shadow:
+        0 10px 30px #0066ff25;
+}
+
+.music-info{
+    flex:1;
+}
+
+.music-info strong{
+    display:block;
+    font-size:14px;
+}
+
+.music-info span{
+    display:block;
+    color:#62728b;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.progress{
+    height:3px;
+
+    margin-top:10px;
+
+    background:#182333;
+
+    border-radius:10px;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+
+    background:#00aaff;
+
+    border-radius:10px;
+}
+
+.music-button{
+    width:42px;
+    height:42px;
+
+    border:0;
+    border-radius:50%;
+
+    background:#008cff;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.2s;
+}
+
+.music-button:hover{
+    transform:scale(1.08);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:100px;
+
+    padding:30px 0 50px;
+
+    display:flex;
+    justify-content:space-between;
+
+    color:#4f5e73;
+
+    font-size:12px;
+
+    border-top:1px solid #ffffff08;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:750px){
+
+    .top-links{
+        display:none;
+    }
+
+    .topbar{
+        justify-content:center;
+    }
+
+    .status{
+        display:none;
+    }
+
+    main{
+        padding-top:120px;
+    }
+
+    .hero{
+        padding-bottom:70px;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+        width:100%;
+    }
+
+    .button{
+        width:100%;
+    }
+
+    .card-grid{
+        grid-template-columns:1fr;
+    }
+
+    .link-list{
+        grid-template-columns:1fr;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+        text-align:center;
+    }
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="background"></div>
-    <div class="particles"></div>
+<!-- BACKGROUND -->
 
-    <button class="sound" id="soundButton">🔊</button>
+<div class="background">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+</div>
 
-    <main class="container">
+<div class="grid"></div>
+<div class="stars" id="stars"></div>
 
-        <section class="profile-card">
 
-            <div class="avatar-wrapper">
-                <img id="avatar"
-                     src="https://cdn.discordapp.com/embed/avatars/0.png"
-                     class="avatar">
-                <span class="online-dot"></span>
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+    <div class="logo">
+        <span class="logo-dot"></span>
+        ALBO
+    </div>
+
+    <nav class="top-links">
+        <a href="#home">Home</a>
+        <a href="#links">Links</a>
+        <a href="#music">Music</a>
+    </nav>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        Online
+    </div>
+
+</header>
+
+
+<main id="home">
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="avatar-container">
+
+        <div class="avatar-ring"></div>
+
+        <!-- HIER DEIN BILD EINSETZEN -->
+        <img
+            class="avatar"
+            src="https://i.imgur.com/placeholder.png"
+            alt="Profile">
+
+        <span class="online"></span>
+
+    </div>
+
+
+    <h1>Albo.</h1>
+
+    <p>
+        Developer, Creator &amp; Roleplay enthusiast.
+        Willkommen auf meiner persönlichen Website.
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <a href="#links" class="button primary">
+            Meine Links
+        </a>
+
+        <a href="#music" class="button secondary">
+            Musik hören
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- INFO -->
+
+<section>
+
+    <div class="section-title">
+        About me
+    </div>
+
+    <div class="card-grid">
+
+        <div class="card">
+
+            <div class="card-icon">
+                ⚡
             </div>
 
-            <h1 id="username">Albo</h1>
-            <p class="subtitle">Developer • Roleplay • Gaming</p>
+            <h3>Developer</h3>
 
-            <div class="discord-box" id="discordBox">
-                <img src="https://cdn.discordapp.com/embed/avatars/0.png">
+            <p>
+                Ich entwickle Websites, Bots
+                und eigene Projekte.
+            </p>
 
-                <div class="discord-info">
-                    <strong id="discordName">Discord nicht verbunden</strong>
-                    <span id="discordStatus">Connect your Discord</span>
-                </div>
+        </div>
 
-                <button id="discordButton">
-                    Discord verbinden
-                </button>
+
+        <div class="card">
+
+            <div class="card-icon">
+                🎮
             </div>
 
-            <div class="links">
+            <h3>Gaming</h3>
 
-                <a href="https://discord.com/" target="_blank" class="link">
-                    <span class="icon">💬</span>
-                    <div>
-                        <b>Discord</b>
-                        <small>Meine Community</small>
-                    </div>
-                    <span class="arrow">→</span>
-                </a>
+            <p>
+                FiveM, Roblox und verschiedene
+                andere Games gehören dazu.
+            </p>
 
-                <a href="https://github.com/" target="_blank" class="link">
-                    <span class="icon">💻</span>
-                    <div>
-                        <b>GitHub</b>
-                        <small>Meine Projekte</small>
-                    </div>
-                    <span class="arrow">→</span>
-                </a>
+        </div>
 
-                <a href="https://www.tiktok.com/" target="_blank" class="link">
-                    <span class="icon">♪</span>
-                    <div>
-                        <b>TikTok</b>
-                        <small>@deinname</small>
-                    </div>
-                    <span class="arrow">→</span>
-                </a>
 
-                <a href="#" class="link">
-                    <span class="icon">🌐</span>
-                    <div>
-                        <b>Meine Website</b>
-                        <small>Weitere Informationen</small>
-                    </div>
-                    <span class="arrow">→</span>
-                </a>
+        <div class="card">
+
+            <div class="card-icon">
+                🚀
+            </div>
+
+            <h3>Projects</h3>
+
+            <p>
+                Neue Ideen, Communities und
+                Projekte ständig im Aufbau.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LINKS -->
+
+<section class="links-section" id="links">
+
+    <div class="section-title">
+        Find me
+    </div>
+
+
+    <div class="link-list">
+
+
+        <a
+            class="link"
+            href="https://discord.com/"
+            target="_blank">
+
+            <div class="link-icon">
+                💬
+            </div>
+
+            <div class="link-info">
+
+                <strong>Discord</strong>
+
+                <span>
+                    Meine Community
+                </span>
 
             </div>
 
-            <div class="views">
-                👁 <span id="views">0</span> Besucher
+            <span class="arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <a
+            class="link"
+            href="https://github.com/"
+            target="_blank">
+
+            <div class="link-icon">
+                💻
             </div>
 
-        </section>
+            <div class="link-info">
 
-        <section class="music-player">
+                <strong>GitHub</strong>
 
-            <div class="music-icon">♫</div>
+                <span>
+                    Meine Projekte
+                </span>
 
-            <div class="music-info">
-                <b>Dein Song</b>
-                <span>Dein Künstler</span>
-
-                <div class="progress">
-                    <div id="progress"></div>
-                </div>
             </div>
 
-            <button id="playButton">▶</button>
+            <span class="arrow">
+                →
+            </span>
 
-        </section>
+        </a>
 
-    </main>
 
-    <audio id="music" src="music.mp3"></audio>
+        <a
+            class="link"
+            href="https://www.tiktok.com/"
+            target="_blank">
 
-    <script src="script.js"></script>
+            <div class="link-icon">
+                ♪
+            </div>
+
+            <div class="link-info">
+
+                <strong>TikTok</strong>
+
+                <span>
+                    @deinusername
+                </span>
+
+            </div>
+
+            <span class="arrow">
+                →
+            </span>
+
+        </a>
+
+
+        <a
+            class="link"
+            href="https://youtube.com/"
+            target="_blank">
+
+            <div class="link-icon">
+                ▶
+            </div>
+
+            <div class="link-info">
+
+                <strong>YouTube</strong>
+
+                <span>
+                    Videos &amp; Content
+                </span>
+
+            </div>
+
+            <span class="arrow">
+                →
+            </span>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- MUSIC -->
+
+<section class="music" id="music">
+
+    <div class="music-cover">
+        ♫
+    </div>
+
+    <div class="music-info">
+
+        <strong>
+            Mein Lieblingssong
+        </strong>
+
+        <span>
+            Artist
+        </span>
+
+        <div class="progress">
+            <div
+                class="progress-bar"
+                id="progress">
+            </div>
+        </div>
+
+    </div>
+
+    <button
+        class="music-button"
+        id="play">
+
+        ▶
+
+    </button>
+
+</section>
+
+
+<footer>
+
+    <span>
+        © 2026 Albo
+    </span>
+
+    <span>
+        Built with ❤️
+    </span>
+
+</footer>
+
+</main>
+
+
+<!-- Optional Musikdatei -->
+
+<audio id="audio" src="music.mp3"></audio>
+
+
+<script>
+
+/* =========================
+   PARTICLES
+========================= */
+
+const stars =
+    document.getElementById("stars");
+
+for(let i = 0; i < 100; i++){
+
+    const star =
+        document.createElement("span");
+
+    star.className = "star";
+
+    star.style.left =
+        Math.random() * 100 + "%";
+
+    star.style.top =
+        Math.random() * 100 + "%";
+
+    star.style.animationDelay =
+        Math.random() * 4 + "s";
+
+    star.style.opacity =
+        Math.random();
+
+    stars.appendChild(star);
+}
+
+
+/* =========================
+   MUSIC
+========================= */
+
+const audio =
+    document.getElementById("audio");
+
+const play =
+    document.getElementById("play");
+
+const progress =
+    document.getElementById("progress");
+
+
+let playing = false;
+
+
+play.addEventListener("click", () => {
+
+    if(!playing){
+
+        audio.play();
+
+        play.textContent = "Ⅱ";
+
+        playing = true;
+
+    }else{
+
+        audio.pause();
+
+        play.textContent = "▶";
+
+        playing = false;
+
+    }
+
+});
+
+
+audio.addEventListener("timeupdate", () => {
+
+    if(!audio.duration) return;
+
+    const percent =
+        (audio.currentTime /
+        audio.duration) * 100;
+
+    progress.style.width =
+        percent + "%";
+
+});
+
+
+audio.addEventListener("ended", () => {
+
+    playing = false;
+
+    play.textContent = "▶";
+
+    progress.style.width = "0%";
+
+});
+
+</script>
 
 </body>
 </html>
