@@ -1,68 +1,75 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meine Website</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      background: #0f172a;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .container {
-      padding: 40px;
-    }
-
-    h1 {
-      font-size: 50px;
-      margin-bottom: 15px;
-    }
-
-    p {
-      color: #94a3b8;
-      font-size: 20px;
-      margin-bottom: 30px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 14px 28px;
-      background: #3b82f6;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      transition: 0.2s;
-    }
-
-    .button:hover {
-      background: #2563eb;
-      transform: scale(1.05);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein FiveM Server</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <div class="container">
-    <h1>Willkommen 👋</h1>
-    <p>Meine erste Website mit Cloudflare Pages.</p>
+    <nav>
+        <div class="logo">MY<span>SERVER</span></div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">Über uns</a>
+            <a href="#join">Beitreten</a>
+        </div>
+    </nav>
 
-    <a href="#" class="button">Los geht's</a>
-  </div>
+    <main id="home">
+        <section class="hero">
+            <div class="hero-content">
+                <p class="tag">● ONLINE & BEREIT</p>
+                <h1>DEIN <span>FIVEM</span><br>ROLEPLAY SERVER</h1>
+                <p class="description">
+                    Erlebe realistisches Roleplay, spannende Geschichten
+                    und eine aktive Community.
+                </p>
+
+                <div class="buttons">
+                    <a href="#join" class="button primary">Jetzt beitreten</a>
+                    <a href="#about" class="button secondary">Mehr erfahren</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="info">
+            <h2>Warum unser Server?</h2>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>🎭 Realistisches RP</h3>
+                    <p>Erlebe abwechslungsreiches und immersives Roleplay.</p>
+                </div>
+
+                <div class="card">
+                    <h3>👥 Aktive Community</h3>
+                    <p>Spiele gemeinsam mit anderen Spielern und baue deine Geschichte auf.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🚀 Eigene Systeme</h3>
+                    <p>Individuelle Features und regelmäßig neue Inhalte.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="join" class="join">
+            <h2>Bereit für dein Abenteuer?</h2>
+            <p>Trete jetzt unserer Community bei.</p>
+
+            <a href="https://discord.com" class="button primary">
+                Discord beitreten
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 Mein Server – Alle Rechte vorbehalten.
+    </footer>
 
 </body>
 </html>
+```
